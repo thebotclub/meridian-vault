@@ -1,0 +1,329 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-03-02T05:02:07.769696+00:00",
+  "assets": {
+    "rules": [
+      {
+        "path": "rules/language/golang-rules.md",
+        "name": "golang-rules",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/language/python-rules.md",
+        "name": "python-rules",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/language/typescript-rules.md",
+        "name": "typescript-rules",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/quality/bug-fix.mdc",
+        "name": "bug-fix",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/check.mdc",
+        "name": "check",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/clean.mdc",
+        "name": "clean",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/code-analysis.mdc",
+        "name": "code-analysis",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/coding-standards.md",
+        "name": "coding-standards",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/quality/commit.mdc",
+        "name": "commit",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/pr-review.mdc",
+        "name": "pr-review",
+        "ext": ".mdc"
+      },
+      {
+        "path": "rules/quality/testing-strategies-coverage.md",
+        "name": "testing-strategies-coverage",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-accessibility.md",
+        "name": "standards-accessibility",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-api.md",
+        "name": "standards-api",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-components.md",
+        "name": "standards-components",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-css.md",
+        "name": "standards-css",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-design.md",
+        "name": "standards-design",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-migration.md",
+        "name": "standards-migration",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-models.md",
+        "name": "standards-models",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-queries.md",
+        "name": "standards-queries",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/standards/standards-responsive.md",
+        "name": "standards-responsive",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/context7-docs.md",
+        "name": "context7-docs",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/delegate.md",
+        "name": "delegate",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/gh-cli.md",
+        "name": "gh-cli",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/git-operations.md",
+        "name": "git-operations",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/grep-mcp.md",
+        "name": "grep-mcp",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/mcp-cli.md",
+        "name": "mcp-cli",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/playwright-cli.md",
+        "name": "playwright-cli",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/skillfield-cli.md",
+        "name": "skillfield-cli",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/vexor-search.md",
+        "name": "vexor-search",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/tools/web-search.md",
+        "name": "web-search",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/context-continuation.md",
+        "name": "context-continuation",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/execution-verification.md",
+        "name": "execution-verification",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/learn.md",
+        "name": "learn",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/memory.md",
+        "name": "memory",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/systematic-debugging.md",
+        "name": "systematic-debugging",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/tdd-enforcement.md",
+        "name": "tdd-enforcement",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/team-vault.md",
+        "name": "team-vault",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/verification-before-completion.md",
+        "name": "verification-before-completion",
+        "ext": ".md"
+      },
+      {
+        "path": "rules/workflow/workflow-enforcement.md",
+        "name": "workflow-enforcement",
+        "ext": ".md"
+      }
+    ],
+    "agents": [
+      {
+        "path": "agents/plan-challenger.md",
+        "name": "plan-challenger",
+        "ext": ".md"
+      },
+      {
+        "path": "agents/plan-verifier.md",
+        "name": "plan-verifier",
+        "ext": ".md"
+      },
+      {
+        "path": "agents/spec-reviewer-compliance.md",
+        "name": "spec-reviewer-compliance",
+        "ext": ".md"
+      },
+      {
+        "path": "agents/spec-reviewer-quality.md",
+        "name": "spec-reviewer-quality",
+        "ext": ".md"
+      }
+    ],
+    "hooks": [
+      {
+        "path": "hooks/_audit.py",
+        "name": "_audit",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/_util.py",
+        "name": "_util",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/audit_logger.py",
+        "name": "audit_logger",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/__init__.py",
+        "name": "__init__",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/dependency_graph.py",
+        "name": "dependency_graph",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/go.py",
+        "name": "go",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/python.py",
+        "name": "python",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/secrets.py",
+        "name": "secrets",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/checkers/typescript.py",
+        "name": "typescript",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/context_monitor.py",
+        "name": "context_monitor",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/file_checker.py",
+        "name": "file_checker",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/hooks.json",
+        "name": "hooks",
+        "ext": ".json"
+      },
+      {
+        "path": "hooks/session_end.py",
+        "name": "session_end",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/spec_plan_validator.py",
+        "name": "spec_plan_validator",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/spec_stop_guard.py",
+        "name": "spec_stop_guard",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/spec_verify_validator.py",
+        "name": "spec_verify_validator",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/tdd_enforcer.py",
+        "name": "tdd_enforcer",
+        "ext": ".py"
+      },
+      {
+        "path": "hooks/tool_redirect.py",
+        "name": "tool_redirect",
+        "ext": ".py"
+      }
+    ],
+    "scripts": [
+      {
+        "path": "scripts/generate_manifest.py",
+        "name": "generate_manifest",
+        "ext": ".py"
+      },
+      {
+        "path": "scripts/generate_vault_manifest.py",
+        "name": "generate_vault_manifest",
+        "ext": ".py"
+      }
+    ]
+  }
+}
