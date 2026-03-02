@@ -13,7 +13,6 @@ import os
 import re
 import subprocess
 import sys
-from functools import lru_cache
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -282,7 +281,7 @@ def _find_ts_test_roots(project_root: Path) -> list[str]:
             # Extract include patterns
             matches = re.findall(r'include:\s*\[([^\]]+)\]', cfg_text)
             for m in matches:
-                dirs = re.findall(r'"([^"]+)"|'([^']+)'', m)
+                dirs = re.findall(r'"([^"]+)"|' + "'" + r'([^'"'"']+)' + "'" + r'', m)
                 for d1, d2 in dirs:
                     pattern = d1 or d2
                     # Extract directory portion of glob
@@ -297,7 +296,7 @@ def _find_ts_test_roots(project_root: Path) -> list[str]:
             cfg_text = jest_cfg.read_text()
             matches = re.findall(r'testMatch:\s*\[([^\]]+)\]', cfg_text)
             for m in matches:
-                dirs = re.findall(r'"([^"]+)"|'([^']+)'', m)
+                dirs = [token.strip('"\' ').strip() for token in m.split(',') if token.strip().strip('"\' ')]
                 for d1, d2 in dirs:
                     pattern = d1 or d2
                     dir_part = pattern.split("*")[0].lstrip("<").rstrip("/")

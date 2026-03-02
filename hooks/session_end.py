@@ -101,9 +101,9 @@ def _score_observation(obs: dict) -> float:
         0.25: ["workaround", "undocumented", "quirk", "gotcha", "edge case"],
         0.20: ["pattern", "approach", "technique", "strategy", "architecture"],
         0.15: ["performance", "optimis", "cache", "latency", "throughput"],
-        0.15: ["debug", "root cause", "traced", "discovered", "realised"],
+        0.12: ["debug", "root cause", "traced", "discovered", "realised"],
         0.10: ["api", "endpoint", "integration", "sdk", "client"],
-        0.10: ["security", "auth", "token", "permission", "vulnerability"],
+        0.08: ["security", "auth", "token", "permission", "vulnerability"],
     }
     for weight, keywords in signals.items():
         if any(kw in text for kw in keywords):
@@ -193,6 +193,6 @@ def _run_skill_extraction(plugin_root: str) -> None:
         count = _extract_skills_from_observations(plugin_root)
         if count > 0:
             print(f"[session_end] Extracted {count} reusable skill{'s' if count != 1 else ''} from this session")
-    except Exception as e:
+    except Exception:
         # Non-fatal — skill extraction is best-effort
         pass

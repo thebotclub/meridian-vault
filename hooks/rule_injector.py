@@ -12,9 +12,7 @@ import json
 import os
 import re
 import subprocess
-import sys
 from pathlib import Path
-from typing import Optional
 
 # ---------------------------------------------------------------------------
 # Detection helpers
@@ -230,8 +228,6 @@ def main() -> int:
     project_root = _find_project_root(cwd)
 
     frameworks = detect_frameworks(project_root)
-    test_fws = detect_test_framework(project_root)
-    orm_patterns = detect_orm_db(project_root)
 
     if not frameworks:
         return 0  # nothing to inject
@@ -239,12 +235,6 @@ def main() -> int:
     injected = inject_rules(plugin_root, project_root, frameworks)
 
     if injected:
-        summary = {
-            "detected_frameworks": frameworks,
-            "test_frameworks": test_fws,
-            "orm_db_patterns": orm_patterns,
-            "injected_rules": injected,
-        }
         # Output to stdout so Meridian/Claude can see what was injected
         print(f"[rule_injector] Detected: {', '.join(frameworks)} | Injected rules for: {', '.join(injected)}")
 

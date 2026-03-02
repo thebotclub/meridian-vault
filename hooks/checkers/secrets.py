@@ -221,4 +221,4 @@ def _print_secret_findings(file_path: Path, findings: list[dict[str, str | int]]
         print(f"    {YELLOW}{f['match']}{NC}", file=sys.stderr)
     print("", file=sys.stderr)
     print(f"{RED}Remove secrets before committing. Use environment variables instead.{NC}", file=sys.stderr)
-    print(f"  Add to .secretsignore to suppress false positives.", file=sys.stderr)
+    print("  Add to .secretsignore to suppress false positives.", file=sys.stderr)
