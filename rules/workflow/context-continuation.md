@@ -51,9 +51,15 @@ When you see the context warning (80% or 90%), take action:
 
 ### At 80% - Prepare for Continuation
 
-- Wrap up current task if possible
-- Avoid starting new complex work
-- Consider saving progress observation
+1. **Invoke the Context Compressor agent** to synthesize observations into a compact handoff:
+   ```
+   Skill(skill="context-compressor")
+   ```
+   This produces `~/.skillfield/sessions/<session_id>/context-summary.md`.
+
+2. Wrap up current task if possible
+3. Avoid starting new complex work
+4. Review the context-summary.md output and correct any inaccuracies
 
 ### At 90% - Mandatory Continuation Protocol
 
