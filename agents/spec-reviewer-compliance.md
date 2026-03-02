@@ -29,6 +29,8 @@ The orchestrator provides:
 
 2. **Read each changed file** - Understand what was implemented
 
+2.5. **Verify git-order TDD for Python files** - Check tests were committed before implementation (Step 2.5 below)
+
 3. **Read related files for context** - Check imports, dependencies, callers as needed
 
 4. **Compare implementation against plan** - Does code match spec?
@@ -54,6 +56,38 @@ Focus on plan alignment. The quality reviewer handles code standards, security, 
 - **must_fix**: Missing critical feature from plan, missing risk mitigation that the plan explicitly committed to, contradicts plan behavior
 - **should_fix**: Incomplete feature, unmet DoD criteria, missing edge case the plan specified
 - **suggestion**: Minor deviation from plan, could be clearer
+
+## Step 2.5: Git-Order TDD Verification (Python Only)
+
+**For each added Python implementation file in `changed_files`**, verify tests were committed before implementation.
+
+1. Identify added non-test Python files: files ending in `.py` that do NOT match `test_*.py` or `*_test.py`
+2. For each implementation file (e.g., `utils.py`), find its expected test file (`test_utils.py` or `utils_test.py`)
+3. Check git commit order using `--diff-filter=A` (Added files only):
+
+```bash
+git log --diff-filter=A --format="%ai %H" -- "<impl_file>" "<test_file>"
+```
+
+4. Compare timestamps: If the implementation file appears first (older timestamp), or the test file doesn't appear at all, flag as `must_fix`
+
+| Finding | Severity |
+| ------- | -------- |
+| No test file exists for a new Python implementation file | **must_fix** |
+| Implementation file committed before its test file | **must_fix** |
+| Test file committed before or in same commit as implementation | ✅ Pass |
+
+**Skip this check if:**
+- The Python file is in an excluded directory (migrations, generated, infra, etc.)
+- The file is a configuration or `__init__.py` with no logic
+- `changed_files` contains no newly-added (as opposed to modified) Python files
+
+**Example:**
+```bash
+# Check order for src/utils.py and tests/test_utils.py
+git log --diff-filter=A --format="%ai" -- "src/utils.py" "tests/test_utils.py"
+# If src/utils.py timestamp is earlier → TDD violation → must_fix
+```
 
 ## Step 3: Risk Mitigation Verification
 
@@ -133,6 +167,7 @@ For the PLAN as a whole, verify:
 - [ ] Each risk mitigation from the Risks section is implemented
 - [ ] Each risk mitigation has test coverage
 - [ ] Each task's Definition of Done criteria are met
+- [ ] All added Python implementation files have test files committed before (or with) them
 
 ## Rules
 
@@ -183,7 +218,7 @@ Plan says "handle API timeout with 30s limit", code has timeout but no test veri
 - Checking code quality, security, or performance (quality reviewer does this)
 - Reading all rule files (quality reviewer does this)
 - Enforcing coding standards (quality reviewer does this)
-- Checking TDD compliance (quality reviewer does this)
+- Checking TDD code quality standards (quality reviewer does this) — but git-order TDD verification IS your responsibility (Step 2.5)
 
 **You ARE responsible for:**
 - Verifying implementation matches the plan specification
@@ -192,3 +227,4 @@ Plan says "handle API timeout with 30s limit", code has timeout but no test veri
 - Verifying each risk mitigation was implemented
 - Checking each DoD criterion is met
 - Ensuring behavior matches plan descriptions
+- Checking git commit order for TDD compliance on new Python files (Step 2.5)

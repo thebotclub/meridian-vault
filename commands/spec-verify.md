@@ -268,7 +268,11 @@ The two review agents (launched in Step 3.0) should be done or nearly done by no
    - `~/.skillfield/sessions/<session-id>/findings-compliance.json`
    - `~/.skillfield/sessions/<session-id>/findings-quality.json`
 2. **If a file doesn't exist yet**, wait a few seconds and retry (agents may still be running)
-3. **Parse the JSON** from each file to get the structured findings
+3. **Parse and validate the JSON** from each file:
+   - Verify required top-level keys: `pass_summary` (string), `issues` (array)
+   - Verify each issue has: `severity` (one of `must_fix|should_fix|suggestion`), `title` (string), `description` (string)
+   - **If JSON is invalid or missing required keys**: retry once (re-read after a brief wait)
+   - **If still invalid after retry**: log error `REVIEW_OUTPUT_INVALID:<agent-name>` to stderr, treat as empty findings (`{"pass_summary": "Agent output invalid — skipped", "issues": []}`)
 
 **If a findings file is still missing after 2-3 retries** (agent failed to write):
 1. Re-launch that specific agent synchronously (without `run_in_background`) with the same prompt
@@ -348,18 +352,27 @@ This is part of the automated /spec workflow. The user approved the plan - verif
 
 **⛔ This step is NON-NEGOTIABLE. Fixes can introduce new bugs.**
 
+**`MAX_VERIFY_ITERATIONS = 3`** — the inner fix→re-verify cycle runs at most 3 times before escalating.
+
+Before each iteration, **read the current `Iterations` value from the plan file**:
+- If `Iterations >= MAX_VERIFY_ITERATIONS (3)`: **STOP the loop** — go directly to the iteration-exhausted path below
+- Otherwise: increment and continue
+
 After implementing ALL code review findings from Step 3.5e:
 
-1. **Re-run BOTH review agents** in parallel (same parameters as Step 3.0d, with `run_in_background=true` and output paths):
+1. **Check iteration limit** — read `Iterations` from plan file header. If already `>= 3`, skip to step 7 (iterations exhausted).
+2. **Re-run BOTH review agents** in parallel (same parameters as Step 3.0d, with `run_in_background=true` and output paths):
    - `spec-reviewer-compliance` → writes to `findings-compliance.json`
    - `spec-reviewer-quality` → writes to `findings-quality.json`
-2. **Wait for completion**, then **read findings from files** (same as Step 3.5a)
-3. **Merge and deduplicate findings** (same process as Step 3.5b)
-4. If new must_fix or should_fix issues found → fix them and re-run both agents again
-5. Maximum 3 iterations of the fix → re-verify cycle
-6. **Only proceed to Phase B when BOTH reviewers return zero must_fix and zero should_fix**
-
-If iterations exhausted with remaining issues, add them to plan. **⛔ Phase Transition Context Guard** (spec.md Section 0.3) before invoking `Skill(skill='spec-implement', args='<plan-path>')`
+3. **Wait for completion**, then **read and validate findings from files** (same as Step 3.5a, including JSON validation)
+4. **Merge and deduplicate findings** (same process as Step 3.5b)
+5. If zero must_fix and zero should_fix → **proceed to Phase B** ✅
+6. If new must_fix or should_fix issues found AND `Iterations < 3`: increment `Iterations` in plan file, fix them and re-run both agents again (loop back to step 1)
+7. **Iterations exhausted** (reached `MAX_VERIFY_ITERATIONS = 3` with remaining issues):
+   - List all remaining must_fix and should_fix issues
+   - Add each as a new task in the plan with `[ ]` status
+   - Present to user: "⚠️ Reached maximum verify iterations (3). N issues remain unresolved and have been added to the plan as new tasks."
+   - **⛔ Phase Transition Context Guard** (spec.md Section 0.3) before invoking `Skill(skill='spec-implement', args='<plan-path>')`
 
 **The only stopping point in /spec is plan approval. Everything else is automatic.**
 
@@ -596,17 +609,24 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
 
 **When verification FAILS (missing features, serious bugs, or unfixed rule violations):**
 
-1. Add new tasks to the plan for missing features/bugs
-2. **Set status back to PENDING and increment Iterations:**
+1. **Check `Iterations` in the plan file.** If `Iterations >= MAX_VERIFY_ITERATIONS (3)`:
+   - List all remaining issues
+   - Inform user: "⚠️ Maximum verify iterations (3) reached. N issues remain — added as new plan tasks. Returning to implementation."
+   - Add each remaining issue as a new `[ ]` task in the plan
+   - Set `Status: PENDING` (do NOT increment Iterations further)
+   - Register: `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
+   - **⛔ Phase Transition Context Guard**, then invoke `Skill(skill='spec-implement', args='<plan-path>')`
+2. Otherwise (iterations not exhausted): Add new tasks to the plan for missing features/bugs
+3. **Set status back to PENDING and increment Iterations:**
    ```
    Edit the plan file:
    Status: COMPLETE  →  Status: PENDING
    Iterations: N     →  Iterations: N+1
    ```
-3. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
-4. Inform user: "🔄 Iteration N+1: Issues found, fixing and re-verifying..."
-5. **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
-6. **Invoke implementation phase:** `Skill(skill='spec-implement', args='<plan-path>')`
+4. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
+5. Inform user: "🔄 Iteration N+1: Issues found, fixing and re-verifying..."
+6. **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
+7. **Invoke implementation phase:** `Skill(skill='spec-implement', args='<plan-path>')`
 
 ---
 

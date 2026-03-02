@@ -162,6 +162,51 @@ The new session receives:
 - Skillfield Memory context injection (including your Session End Summary)
 - A continuation prompt instructing you to resume
 
+### At 95%+ - EMERGENCY HANDOFF
+
+**⚠️ CRITICAL OVERRIDE: At 95%+, skip ALL verification. Two steps only.**
+
+When context is at or above 95%, running tests, type checkers, or linters is too expensive — it will push the session over 100% and lose ALL work. Skip everything except the minimum required for the next session to continue.
+
+**EMERGENCY HANDOFF — 2 steps only, in a SINGLE turn:**
+
+**Step 1: Write minimal continuation file**
+
+Write to the exact path from the context monitor hook output:
+
+```markdown
+# EMERGENCY HANDOFF — Context at 95%+
+
+**Task:** [One sentence: what you were doing]
+**Active Plan:** [path/to/plan.md or "None"]
+
+## Last Action:
+[The LAST tool call or file you were editing]
+
+## Next Steps:
+1. [IMMEDIATE: the very next action to take, as specific as possible]
+
+## NOTE: No verification run — context was at 95%+. Run tests first before continuing.
+```
+
+**Step 2: Trigger send-clear immediately**
+
+```bash
+# If active plan exists:
+~/.skillfield/bin/skillfield send-clear docs/plans/YYYY-MM-DD-name.md
+
+# If no active plan:
+~/.skillfield/bin/skillfield send-clear --general
+```
+
+**DO NOT:**
+- Run tests, linters, or type checkers
+- Write a full session summary
+- Check git status
+- Ask the user anything
+
+**The next session will run verification before continuing work.**
+
 ## ⛔ MANDATORY: Clean Up Stale Continuation Files at Session Start
 
 **At the START of EVERY session (not just continuation sessions), delete any stale continuation file:**
@@ -215,7 +260,8 @@ If you're in general development (no plan file):
 |---------------|--------|
 | < 80% | Continue normally |
 | 80-89% | Wrap up current work, avoid new features |
-| ≥ 90% | **MANDATORY:** Save state → Clear session → Continue |
+| 90-94% | **MANDATORY:** Verify → Save state → Clear session → Continue |
+| ≥ 95% | **EMERGENCY:** Skip verification → Write minimal file → send-clear → Done |
 
 ## Skillfield Commands for Endless Mode
 

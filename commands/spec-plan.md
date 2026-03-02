@@ -585,9 +585,14 @@ Both agents persist their findings JSON to the session directory for reliable re
 2. **Read findings from files** using the Read tool on the paths defined above
 3. **If a file doesn't exist yet**, wait a few seconds and retry (agents may still be running)
 4. **If a file is still missing after 2-3 retries**, re-launch that specific agent synchronously (without `run_in_background`) with the same prompt
-5. Collect findings from both agents
-6. **Deduplicate**: If both agents found the same issue, keep the one with higher severity
-7. Combine into a single findings list
+5. **Validate JSON structure** — after reading each file, verify it contains required fields:
+   - Top-level keys present: `pass_summary` (string), `issues` (array)
+   - Each item in `issues` has: `severity` (one of `must_fix|should_fix|suggestion`), `title` (string), `description` (string)
+   - If validation fails: **retry once** (re-read the file after a brief wait)
+   - If still invalid after retry: log error `REVIEW_OUTPUT_INVALID:<agent-name>` to stderr and treat as empty findings (`{"pass_summary": "Agent output invalid — skipped", "issues": []}`)
+6. Collect findings from both agents
+7. **Deduplicate**: If both agents found the same issue, keep the one with higher severity
+8. Combine into a single findings list
 
 #### Fix All Findings
 
