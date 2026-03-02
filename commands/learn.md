@@ -74,7 +74,7 @@ description: |
   - What the skill does
   - Specific trigger conditions (exact error messages, symptoms)
   - When to use it (contexts, scenarios)
-author: Skillfield Code
+author: Tribunal
 version: 1.0.0
 ---
 
@@ -162,8 +162,8 @@ Before creating, search for related skills:
 ```bash
 ls .claude/skills/ 2>/dev/null
 rg -i "keyword" .claude/skills/ 2>/dev/null
-ls ~/.claude/skillfield/skills/ 2>/dev/null
-rg -i "keyword" ~/.claude/skillfield/skills/ 2>/dev/null
+ls ~/.claude/tribunal/skills/ 2>/dev/null
+rg -i "keyword" ~/.claude/tribunal/skills/ 2>/dev/null
 ```
 
 | Found                | Action                           |

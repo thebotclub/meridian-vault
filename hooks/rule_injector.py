@@ -201,7 +201,7 @@ def inject_rules(plugin_root: Path, project_root: Path, frameworks: list[str]) -
             continue
 
         if claude_rules_dir.parent.exists() or claude_rules_dir.exists():
-            target = claude_rules_dir / f"meridian-{fw}.md"
+            target = claude_rules_dir / f"tribunal-{fw}.md"
         elif claude_md.exists():
             target = claude_md
         else:
@@ -221,7 +221,7 @@ def inject_rules(plugin_root: Path, project_root: Path, frameworks: list[str]) -
 def main() -> int:
     plugin_root_str = os.environ.get("CLAUDE_PLUGIN_ROOT", "")
     if not plugin_root_str:
-        return 0  # silent skip if not in Meridian context
+        return 0  # silent skip if not in Tribunal context
 
     plugin_root = Path(plugin_root_str)
     cwd = Path(os.environ.get("PWD", os.getcwd()))
@@ -235,7 +235,7 @@ def main() -> int:
     injected = inject_rules(plugin_root, project_root, frameworks)
 
     if injected:
-        # Output to stdout so Meridian/Claude can see what was injected
+        # Output to stdout so Tribunal/Claude can see what was injected
         print(f"[rule_injector] Detected: {', '.join(frameworks)} | Injected rules for: {', '.join(injected)}")
 
     return 0

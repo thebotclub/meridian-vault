@@ -316,7 +316,7 @@ MCP servers can be configured in two locations:
 
 **Key difference:** With `.mcp.json`, tool definitions load into context when used. With `mcp_servers.json`, only the CLI output enters context - zero token cost for instructions.
 
-**Skillfield Core Servers (skip these - already documented in standard rules):**
+**Tribunal Core Servers (skip these - already documented in standard rules):**
 
 - `context7` - Library documentation
 - `mem-search` - Persistent memory
@@ -346,7 +346,7 @@ MCP servers can be configured in two locations:
 
 4. **Build inventory of user servers:**
    - Parse both config files
-   - Exclude Skillfield core servers: `context7`, `mem-search`, `web-search`, `web-fetch`, `grep-mcp`
+   - Exclude Tribunal core servers: `context7`, `mem-search`, `web-search`, `web-fetch`, `grep-mcp`
    - Note which config file each server comes from
 
 #### Step 6.2: Smoke-Test MCP Servers
@@ -401,7 +401,7 @@ For each user server discovered in Step 6.1:
 
 #### Step 6.3: Document User MCP Servers
 
-For each user-configured server (not Skillfield core):
+For each user-configured server (not Tribunal core):
 
 1. **Get server tools and descriptions:**
 
@@ -461,7 +461,7 @@ mcp-cli server-name/tool-name '{"param": "value"}'
 
 Skip MCP documentation if:
 - No `.mcp.json` AND no `mcp_servers.json` exists
-- Only Skillfield core servers are configured (no user servers)
+- Only Tribunal core servers are configured (no user servers)
 - User declines documentation update
 
 ## Phase 7: Sync Existing Skills

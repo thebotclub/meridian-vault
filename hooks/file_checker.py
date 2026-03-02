@@ -23,24 +23,24 @@ def _make_actionable(reason: str, ext: str) -> str:
     lang_hints = {
         ".py": (
             "Fix: run `ruff check --fix` and `basedpyright` locally before committing.",
-            "Rule: https://github.com/thebotclub/meridian-vault/blob/main/rules/quality/python-quality.md",
+            "Rule: https://github.com/thebotclub/tribunal-vault/blob/main/rules/quality/python-quality.md",
         ),
         ".ts": (
             "Fix: run `eslint --fix` and `tsc --noEmit` locally before committing.",
-            "Rule: https://github.com/thebotclub/meridian-vault/blob/main/rules/quality/typescript-quality.md",
+            "Rule: https://github.com/thebotclub/tribunal-vault/blob/main/rules/quality/typescript-quality.md",
         ),
         ".tsx": (
             "Fix: run `eslint --fix` and `tsc --noEmit` locally before committing.",
-            "Rule: https://github.com/thebotclub/meridian-vault/blob/main/rules/quality/typescript-quality.md",
+            "Rule: https://github.com/thebotclub/tribunal-vault/blob/main/rules/quality/typescript-quality.md",
         ),
         ".go": (
             "Fix: run `gofmt -w .` and `go vet ./...` locally before committing.",
-            "Rule: https://github.com/thebotclub/meridian-vault/blob/main/rules/quality/go-quality.md",
+            "Rule: https://github.com/thebotclub/tribunal-vault/blob/main/rules/quality/go-quality.md",
         ),
     }
     fix_hint, rule_link = lang_hints.get(ext, (
         "Fix: resolve the issue before saving.",
-        "Rule: https://github.com/thebotclub/meridian-vault/blob/main/rules/",
+        "Rule: https://github.com/thebotclub/tribunal-vault/blob/main/rules/",
     ))
 
     lines = [

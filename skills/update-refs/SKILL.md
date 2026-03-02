@@ -1,6 +1,6 @@
 ---
 name: update-refs
-description: Update naming and documentation references across the Skillfield Code codebase. Use when renaming features, updating descriptions, changing terminology, or ensuring consistency after modifying commands, skills, or workflows. Triggers on "update references", "rename X to Y across codebase", "sync documentation", or "update all mentions of X".
+description: Update naming and documentation references across the Tribunal codebase. Use when renaming features, updating descriptions, changing terminology, or ensuring consistency after modifying commands, skills, or workflows. Triggers on "update references", "rename X to Y across codebase", "sync documentation", or "update all mentions of X".
 version: 1.2.0
 ---
 
@@ -27,7 +27,7 @@ When updating terminology, feature names, descriptions, or counts, check ALL loc
 | Location | What to Check |
 |----------|---------------|
 | `README.md` | Feature descriptions, usage examples, Before & After table |
-| `docs/Skillfield Code - Internal Guide.md` | Internal documentation and guides |
+| `docs/Tribunal - Internal Guide.md` | Internal documentation and guides |
 | `CHANGELOG.md` | Version history and release notes |
 
 ### 3. Package & Install
@@ -38,7 +38,7 @@ When updating terminology, feature names, descriptions, or counts, check ALL loc
 | `install.sh` | Shell installer script messages |
 | `launcher/__init__.py` | Package docstring |
 
-### 4. Skillfield Plugin (sf/ directory)
+### 4. Tribunal Plugin (sf/ directory)
 
 | Location | What to Check |
 |----------|---------------|

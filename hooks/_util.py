@@ -34,17 +34,17 @@ FILE_LENGTH_WARN = 300
 FILE_LENGTH_CRITICAL = 500
 
 
-def _skillfield_home() -> Path:
-    """Get the Skillfield home directory, respecting SKILLFIELD_HOME env var."""
+def _tribunal_home() -> Path:
+    """Get the Tribunal home directory, respecting SKILLFIELD_HOME env var."""
     env = os.environ.get("SKILLFIELD_HOME", "").strip()
     if env:
         return Path(env)
-    return Path.home() / ".skillfield"
+    return Path.home() / ".tribunal"
 
 
 def _sessions_base() -> Path:
     """Get base sessions directory."""
-    return _skillfield_home() / "sessions"
+    return _tribunal_home() / "sessions"
 
 
 def get_session_cache_path() -> Path:

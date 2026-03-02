@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Persistent hook runner daemon for Skillfield Code.
+"""Persistent hook runner daemon for Tribunal.
 
-Listens on a Unix socket (~/.skillfield/hook-runner.sock) and dispatches
+Listens on a Unix socket (~/.tribunal/hook-runner.sock) and dispatches
 hook events to pre-loaded hook modules. Eliminates uv cold-start overhead
 by keeping hook modules resident in memory.
 
@@ -39,8 +39,8 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-SOCKET_PATH = Path.home() / ".skillfield" / "hook-runner.sock"
-PID_FILE = Path.home() / ".skillfield" / "hook-runner.pid"
+SOCKET_PATH = Path.home() / ".tribunal" / "hook-runner.sock"
+PID_FILE = Path.home() / ".tribunal" / "hook-runner.pid"
 
 # Hooks that support daemon execution (have a run(stdin_data, env) -> (rc, out, err) interface)
 SUPPORTED_HOOKS = ["file_checker", "tdd_enforcer", "context_monitor"]
@@ -158,7 +158,7 @@ def _run_server() -> None:
     if SOCKET_PATH.exists():
         SOCKET_PATH.unlink()
 
-    plugin_dir = Path(os.environ.get("CLAUDE_PLUGIN_DIR", Path.home() / ".claude" / "skillfield"))
+    plugin_dir = Path(os.environ.get("CLAUDE_PLUGIN_DIR", Path.home() / ".claude" / "tribunal"))
     _load_hook_modules(plugin_dir)
 
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as srv:
@@ -225,7 +225,7 @@ def stop_daemon() -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Skillfield hook runner daemon")
+    parser = argparse.ArgumentParser(description="Tribunal hook runner daemon")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--start", action="store_true", help="Start daemon")
     group.add_argument("--stop", action="store_true", help="Stop daemon")

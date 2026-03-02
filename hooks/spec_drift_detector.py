@@ -143,7 +143,7 @@ def main() -> int:
     if not unexpected:
         return 0
 
-    rule_link = "https://github.com/thebotclub/meridian-vault/blob/main/rules/workflow/spec-workflow.md"
+    rule_link = "https://github.com/thebotclub/tribunal-vault/blob/main/rules/workflow/spec-workflow.md"
     print("", file=sys.stderr)
     print(f"{YELLOW}⚠ Spec Drift Detected (after {count} edits){NC}", file=sys.stderr)
     print(f"{YELLOW}  The following changed files are NOT in the active plan:{NC}", file=sys.stderr)

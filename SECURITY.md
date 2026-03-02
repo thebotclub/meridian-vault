@@ -11,7 +11,7 @@
 
 Please **do not** open a public GitHub issue for security vulnerabilities.
 
-Report vulnerabilities via [GitHub Private Security Advisory](https://github.com/thebotclub/meridian-vault/security/advisories/new).
+Report vulnerabilities via [GitHub Private Security Advisory](https://github.com/thebotclub/tribunal-vault/security/advisories/new).
 
 ### Our SLA
 

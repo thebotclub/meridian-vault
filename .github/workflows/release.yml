@@ -42,7 +42,7 @@ jobs:
 
       - name: Export GPG public key
         run: |
-          gpg --armor --export "$GPG_KEY_ID" > meridian-vault-pubkey.asc
+          gpg --armor --export "$GPG_KEY_ID" > tribunal-vault-pubkey.asc
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -50,5 +50,5 @@ jobs:
           files: |
             manifest.json
             manifest.json.sig
-            meridian-vault-pubkey.asc
+            tribunal-vault-pubkey.asc
           generate_release_notes: true

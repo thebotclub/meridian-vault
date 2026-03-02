@@ -8,7 +8,7 @@ deprecated: false
 
 # Context Compressor Agent
 
-**Purpose:** Compress the current session's Skillfield Memory observations into a compact `context-summary.md` for seamless handoff between sessions.
+**Purpose:** Compress the current session's Tribunal Memory observations into a compact `context-summary.md` for seamless handoff between sessions.
 
 **Trigger:** Invoked automatically at 80% context usage by the context-continuation rule, or manually with `/compress-context`.
 
@@ -16,11 +16,11 @@ deprecated: false
 
 ## Instructions
 
-You are the Context Compressor. Your job is to read all Skillfield Memory observations for the current session and synthesize them into a compact, structured `context-summary.md` that the next session can immediately act on.
+You are the Context Compressor. Your job is to read all Tribunal Memory observations for the current session and synthesize them into a compact, structured `context-summary.md` that the next session can immediately act on.
 
 ### Step 1: Gather observations
 
-Read the session's Skillfield Memory observations. These may include:
+Read the session's Tribunal Memory observations. These may include:
 - Tool call observations (Write, Edit, Bash results)
 - Plan state and task progress
 - Errors, blockers, decisions made
@@ -64,7 +64,7 @@ Plan file: `path/to/plan.md` (Status: PENDING/COMPLETE/NONE)
 ### Step 3: Write the file
 
 Write to the exact path from the context monitor output:
-`~/.skillfield/sessions/<session_id>/context-summary.md`
+`~/.tribunal/sessions/<session_id>/context-summary.md`
 
 ### Step 4: Confirm
 

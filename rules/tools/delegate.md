@@ -9,7 +9,7 @@ deprecated: false
 
 ## Sub-Agent Delegation via claude-code
 
-Skillfield can delegate heavy file operations to a Claude Code sub-agent via the `claude-code` MCP server. This keeps your main session's context clean and avoids unnecessary compactions.
+Tribunal can delegate heavy file operations to a Claude Code sub-agent via the `claude-code` MCP server. This keeps your main session's context clean and avoids unnecessary compactions.
 
 ### When to Delegate
 
@@ -63,4 +63,4 @@ Each delegated task runs in an isolated Claude Code session. The file contents, 
 
 - Claude Code installed and authenticated (`claude auth login`)
 - `--dangerously-skip-permissions` accepted once (`claude --dangerously-skip-permissions`)
-- `claude-code` entry in `mcp_servers.json` (auto-provisioned by Skillfield)
+- `claude-code` entry in `mcp_servers.json` (auto-provisioned by Tribunal)

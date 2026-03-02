@@ -88,11 +88,11 @@ Background agents' return values can be lost after completion. To guarantee find
 echo $SF_SESSION_ID
 ```
 
-**⚠️ Validate the session ID is set.** If `$SF_SESSION_ID` is empty, fall back to `"default"` to avoid writing to `~/.skillfield/sessions//`.
+**⚠️ Validate the session ID is set.** If `$SF_SESSION_ID` is empty, fall back to `"default"` to avoid writing to `~/.tribunal/sessions//`.
 
 Define output paths (replace `<session-id>` with the resolved value):
-- **Compliance findings:** `~/.skillfield/sessions/<session-id>/findings-compliance.json`
-- **Quality findings:** `~/.skillfield/sessions/<session-id>/findings-quality.json`
+- **Compliance findings:** `~/.tribunal/sessions/<session-id>/findings-compliance.json`
+- **Quality findings:** `~/.tribunal/sessions/<session-id>/findings-quality.json`
 
 #### 3.0d: Launch Both Reviewers in Parallel
 
@@ -206,7 +206,7 @@ This is a serious issue - the implementation is incomplete.
    Iterations: N     →  Iterations: N+1
    ```
 
-3. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
+3. **Register status change:** `~/.tribunal/bin/tribunal register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
 
 4. **Inform user:**
 
@@ -220,7 +220,7 @@ This is a serious issue - the implementation is incomplete.
    The plan has been updated with [N] new tasks.
    ```
 
-5. **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
+5. **⛔ Phase Transition Context Guard:** Run `~/.tribunal/bin/tribunal check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
 6. **Invoke implementation phase:** `Skill(skill='spec-implement', args='<plan-path>')`
 
 ### Step 3.4: Call Chain Analysis
@@ -265,8 +265,8 @@ The two review agents (launched in Step 3.0) should be done or nearly done by no
 **Polling approach:**
 
 1. **Read findings from files** — Use the Read tool on the paths defined in Step 3.0c:
-   - `~/.skillfield/sessions/<session-id>/findings-compliance.json`
-   - `~/.skillfield/sessions/<session-id>/findings-quality.json`
+   - `~/.tribunal/sessions/<session-id>/findings-compliance.json`
+   - `~/.tribunal/sessions/<session-id>/findings-quality.json`
 2. **If a file doesn't exist yet**, wait a few seconds and retry (agents may still be running)
 3. **Parse and validate the JSON** from each file:
    - Verify required top-level keys: `pass_summary` (string), `issues` (array)
@@ -394,7 +394,7 @@ Build/compile the project. Verify zero errors.
 
 If the project builds artifacts that are deployed separately from source (e.g., bundled JS, compiled binaries, Docker images):
 
-1. Identify where built artifacts are installed (e.g., `~/.claude/skillfield/scripts/`)
+1. Identify where built artifacts are installed (e.g., `~/.claude/tribunal/scripts/`)
 2. Copy new builds to the installed location
 3. Restart any running services that use the old artifacts
 
@@ -529,7 +529,7 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
 2. **Check for active worktree:**
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree detect --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree detect --json <plan_slug>
    # Returns: {"found": true, "path": "...", "branch": "...", "base_branch": "..."} or {"found": false}
    ```
 
@@ -538,7 +538,7 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
 4. **Show diff summary:**
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree diff --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree diff --json <plan_slug>
    # Returns JSON with changed files list
    ```
 
@@ -558,25 +558,25 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
    **If "Yes, squash merge":**
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree sync --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree sync --json <plan_slug>
    # Returns: {"success": true, "files_changed": N, "commit_hash": "..."} or {"success": false, "error": "..."}
    ```
 
    If sync succeeds, clean up the worktree:
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree cleanup --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree cleanup --json <plan_slug>
    ```
 
    Report: "✅ Changes synced to `<base_branch>` — N files changed, commit `<hash>`"
 
    **If "No, keep worktree":**
-   Report: "Worktree preserved at `<worktree_path>`. You can sync later via `skillfield worktree sync <plan-slug>` or discard via `skillfield worktree cleanup <plan-slug>`."
+   Report: "Worktree preserved at `<worktree_path>`. You can sync later via `tribunal worktree sync <plan-slug>` or discard via `tribunal worktree cleanup <plan-slug>`."
 
    **If "Discard all changes":**
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree cleanup --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree cleanup --json <plan_slug>
    ```
 
    Report: "Worktree and branch discarded."
@@ -592,7 +592,7 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
    Edit the plan file and change the Status line:
    Status: COMPLETE  →  Status: VERIFIED
    ```
-2. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "VERIFIED" 2>/dev/null || true`
+2. **Register status change:** `~/.tribunal/bin/tribunal register-plan "<plan_path>" "VERIFIED" 2>/dev/null || true`
 3. Read the Iterations count from the plan file
 4. Report completion:
 
@@ -614,7 +614,7 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
    - Inform user: "⚠️ Maximum verify iterations (3) reached. N issues remain — added as new plan tasks. Returning to implementation."
    - Add each remaining issue as a new `[ ]` task in the plan
    - Set `Status: PENDING` (do NOT increment Iterations further)
-   - Register: `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
+   - Register: `~/.tribunal/bin/tribunal register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
    - **⛔ Phase Transition Context Guard**, then invoke `Skill(skill='spec-implement', args='<plan-path>')`
 2. Otherwise (iterations not exhausted): Add new tasks to the plan for missing features/bugs
 3. **Set status back to PENDING and increment Iterations:**
@@ -623,9 +623,9 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
    Status: COMPLETE  →  Status: PENDING
    Iterations: N     →  Iterations: N+1
    ```
-4. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
+4. **Register status change:** `~/.tribunal/bin/tribunal register-plan "<plan_path>" "PENDING" 2>/dev/null || true`
 5. Inform user: "🔄 Iteration N+1: Issues found, fixing and re-verifying..."
-6. **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
+6. **⛔ Phase Transition Context Guard:** Run `~/.tribunal/bin/tribunal check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
 7. **Invoke implementation phase:** `Skill(skill='spec-implement', args='<plan-path>')`
 
 ---
@@ -635,7 +635,7 @@ This is the THIRD user interaction point in the `/spec` workflow (first is workt
 After each major operation, check context:
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 **Between iterations:**
@@ -650,7 +650,7 @@ If response shows `"status": "CLEAR_NEEDED"` (context >= 90%):
 
 **Step 1: Write continuation file (GUARANTEED BACKUP)**
 
-Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
+Write to `~/.tribunal/sessions/$SF_SESSION_ID/continuation.md`:
 
 ```markdown
 # Session Continuation (/spec)
@@ -675,9 +675,9 @@ Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
 **Step 2: Trigger session clear**
 
 ```bash
-~/.skillfield/bin/skillfield send-clear <plan-path>
+~/.tribunal/bin/tribunal send-clear <plan-path>
 ```
 
-Skillfield will restart with `/spec --continue <plan-path>`
+Tribunal will restart with `/spec --continue <plan-path>`
 
 ARGUMENTS: $ARGUMENTS

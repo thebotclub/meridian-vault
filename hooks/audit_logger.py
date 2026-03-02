@@ -1,4 +1,4 @@
-"""Audit logger hook — logs tool usage to ~/.meridian/audit.log as JSONL.
+"""Audit logger hook — logs tool usage to ~/.tribunal/audit.log as JSONL.
 
 Now uses the shared AuditLogger class from _audit.py for structured logging
 with fields: hook_name, outcome, duration_ms, detail.

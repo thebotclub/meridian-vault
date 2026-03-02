@@ -22,7 +22,7 @@ You review implementation code for quality, security, testing, performance, and 
 
 ### Step 0: Load Rules (DO THIS FIRST)
 
-Read **quality-relevant** rules only. Skip workflow/tool rules (context-continuation, skillfield-cli, memory, web-search, etc.) — they don't apply to code review.
+Read **quality-relevant** rules only. Skip workflow/tool rules (context-continuation, tribunal-cli, memory, web-search, etc.) — they don't apply to code review.
 
 ```bash
 # 1. Read coding standards and language-specific rules
@@ -39,7 +39,7 @@ Rules to SKIP (not relevant to code review):
 - `gh-cli.md`, `git-operations.md` — git/GitHub workflow
 - `grep-mcp.md`, `mcp-cli.md` — tool usage
 - `learn.md`, `memory.md` — learning/memory systems
-- `skillfield-cli.md` — CLI reference
+- `tribunal-cli.md` — CLI reference
 - `playwright-cli.md` — browser automation
 - `vexor-search.md`, `web-search.md` — search tools
 - `team-vault.md` — vault management

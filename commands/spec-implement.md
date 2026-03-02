@@ -96,7 +96,7 @@ spec-implement → spec-verify → issues found → spec-implement → spec-veri
 2. **Check for existing worktree** (continuation session or verify→implement feedback loop):
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree detect --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree detect --json <plan_slug>
    # Returns: {"found": true, "path": "...", "branch": "...", "base_branch": "..."} or {"found": false}
    ```
 
@@ -105,7 +105,7 @@ spec-implement → spec-verify → issues found → spec-implement → spec-veri
 4. **If no worktree exists** (`"found": false`): Create one:
 
    ```bash
-   ~/.skillfield/bin/skillfield worktree create --json <plan_slug>
+   ~/.tribunal/bin/tribunal worktree create --json <plan_slug>
    # Returns: {"path": "...", "branch": "spec/<slug>", "base_branch": "main"}
    ```
 
@@ -125,8 +125,8 @@ spec-implement → spec-verify → issues found → spec-implement → spec-veri
        - "Skip worktree" — Work directly on the current branch instead (no isolation)
    ```
 
-   **If "Commit changes":** Run `git add` for the changed files, commit with an appropriate message, then retry `skillfield worktree create`.
-   **If "Stash changes":** Run `git stash push -m "auto-stash before spec worktree"`, then retry `skillfield worktree create`.
+   **If "Commit changes":** Run `git add` for the changed files, commit with an appropriate message, then retry `tribunal worktree create`.
+   **If "Stash changes":** Run `git stash push -m "auto-stash before spec worktree"`, then retry `tribunal worktree create`.
    **If "Skip worktree":** Continue without worktree isolation — implementation happens on the current branch. Log a note to the user.
 
    Do NOT proceed with worktree creation until the working tree is clean or the user chooses to skip.
@@ -227,7 +227,7 @@ TaskCreate: "Task 4: Add documentation"            → id=4, addBlockedBy: [2]
    Use `feat(spec):` for new features, `fix(spec):` for bug fixes, `test(spec):` for test-only tasks, `refactor(spec):` for refactoring. Skip this step when `Worktree: No` (normal git rules apply).
 10. **Mark task as `completed`** - `TaskUpdate(taskId="<id>", status="completed")`
 11. **UPDATE PLAN FILE IMMEDIATELY** (see Step 2.4)
-12. **Check context usage** - Run `~/.skillfield/bin/skillfield check-context --json`
+12. **Check context usage** - Run `~/.tribunal/bin/tribunal check-context --json`
 
 **⚠️ NEVER SKIP TASKS:**
 
@@ -276,8 +276,8 @@ Update counts:
    Edit the plan file and change the Status line:
    Status: PENDING  →  Status: COMPLETE
    ```
-4. **Register status change:** `~/.skillfield/bin/skillfield register-plan "<plan_path>" "COMPLETE" 2>/dev/null || true`
-5. **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
+4. **Register status change:** `~/.tribunal/bin/tribunal register-plan "<plan_path>" "COMPLETE" 2>/dev/null || true`
+5. **⛔ Phase Transition Context Guard:** Run `~/.tribunal/bin/tribunal check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
 6. **Invoke verification phase:** `Skill(skill='spec-verify', args='<plan-path>')`
 
 ---
@@ -326,7 +326,7 @@ If you notice ANY of these, STOP and report to user:
 After each major operation, check context:
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 **Between iterations:**
@@ -341,7 +341,7 @@ If response shows `"status": "CLEAR_NEEDED"` (context >= 90%):
 
 **Step 1: Write continuation file (GUARANTEED BACKUP)**
 
-Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
+Write to `~/.tribunal/sessions/$SF_SESSION_ID/continuation.md`:
 
 ```markdown
 # Session Continuation (/spec)
@@ -366,9 +366,9 @@ Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
 **Step 2: Trigger session clear**
 
 ```bash
-~/.skillfield/bin/skillfield send-clear <plan-path>
+~/.tribunal/bin/tribunal send-clear <plan-path>
 ```
 
-Skillfield will restart with `/spec --continue <plan-path>`
+Tribunal will restart with `/spec --continue <plan-path>`
 
 ARGUMENTS: $ARGUMENTS

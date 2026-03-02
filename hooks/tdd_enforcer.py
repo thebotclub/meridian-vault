@@ -216,7 +216,7 @@ def is_trivial_edit(tool_name: str, tool_input: dict) -> bool:
 
 def warn(message: str, suggestion: str, affected_tests: list[str] | None = None, file_path: str = "") -> int:
     """Print a TDD reminder to stderr and return exit code 2 (non-blocking PostToolUse signal)."""
-    rule_link = "https://github.com/thebotclub/meridian-vault/blob/main/rules/workflow/tdd.md"
+    rule_link = "https://github.com/thebotclub/tribunal-vault/blob/main/rules/workflow/tdd.md"
     print("", file=sys.stderr)
     print(f"{YELLOW}⚠ TDD Reminder: {message}{NC}", file=sys.stderr)
     print(f"{YELLOW}  What to do next: {suggestion}{NC}", file=sys.stderr)
@@ -237,7 +237,7 @@ def warn(message: str, suggestion: str, affected_tests: list[str] | None = None,
 # Test root discovery cache
 # ---------------------------------------------------------------------------
 
-_TEST_ROOTS_CACHE = Path.home() / ".skillfield" / "test-roots.json"
+_TEST_ROOTS_CACHE = Path.home() / ".tribunal" / "test-roots.json"
 
 
 def _load_test_roots_cache() -> dict:
@@ -442,7 +442,7 @@ def get_go_test_files(impl_path: str) -> list[str]:
 # Coverage-aware TDD (Item 6)
 # ---------------------------------------------------------------------------
 
-_COVERAGE_CACHE = Path.home() / ".skillfield" / "coverage-cache.json"
+_COVERAGE_CACHE = Path.home() / ".tribunal" / "coverage-cache.json"
 
 
 def _load_coverage_cache() -> dict:

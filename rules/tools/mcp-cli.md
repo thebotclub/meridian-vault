@@ -15,7 +15,7 @@ Access custom MCP servers through the command line. MCP enables interaction with
 
 | Source | Location | How It Works |
 |--------|----------|--------------|
-| Skillfield Core | `.claude/skillfield/.mcp.json` | Built-in servers (context7, mem-search, web-search, web-fetch, grep-mcp) |
+| Tribunal Core | `.claude/tribunal/.mcp.json` | Built-in servers (context7, mem-search, web-search, web-fetch, grep-mcp) |
 | Claude Code | `.mcp.json` (project root) | Lazy-loaded; **instructions enter context** when triggered |
 | mcp-cli | `mcp_servers.json` (project root) | Called via CLI; **instructions never enter context** |
 
@@ -32,7 +32,7 @@ Access custom MCP servers through the command line. MCP enables interaction with
 
 **Rule of thumb:** If a server has >10 tools or verbose descriptions, put it in `mcp_servers.json` to keep context clean.
 
-**Skillfield Core Servers** (already documented in standard rules - don't re-document):
+**Tribunal Core Servers** (already documented in standard rules - don't re-document):
 - `context7` - Library docs (see `context7-docs.md`)
 - `mem-search` - Persistent memory (see `memory.md`)
 - `web-search` - Web search (see `web-search.md`)
@@ -138,11 +138,11 @@ mcp-cli filesystem/search_files '{"path": "src/", "pattern": "*.ts"}' --json | j
 
 | Situation | Use |
 |-----------|-----|
-| Skillfield core servers (context7, mem-search, web-search, web-fetch, grep-mcp) | Direct tool calls via ToolSearch |
+| Tribunal core servers (context7, mem-search, web-search, web-fetch, grep-mcp) | Direct tool calls via ToolSearch |
 | User servers in `.mcp.json` or `mcp_servers.json` | `mcp-cli` commands |
 | Discovering available tools | `mcp-cli` or `mcp-cli <server> -d` |
 | Complex JSON arguments with quotes | Use stdin: `mcp-cli server/tool -` |
 
 ### Sync
 
-Run `/sync` after adding servers to `.mcp.json` or `mcp_servers.json` to generate custom rules with tool documentation. Skillfield core servers are already documented in standard rules.
+Run `/sync` after adding servers to `.mcp.json` or `mcp_servers.json` to generate custom rules with tool documentation. Tribunal core servers are already documented in standard rules.

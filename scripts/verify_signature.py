@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify manifest.json GPG signature against the pinned Meridian Vault public key.
+"""Verify manifest.json GPG signature against the pinned Tribunal Vault public key.
 
 Usage:
     python scripts/verify_signature.py [--manifest PATH] [--sig PATH] [--pubkey PATH]
@@ -18,13 +18,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-# Pinned public key fingerprint for the Meridian Vault signing key.
+# Pinned public key fingerprint for the Tribunal Vault signing key.
 # Update this when rotating keys (also bump the key in CI).
 PINNED_FINGERPRINT: str | None = None  # Set to full 40-char fingerprint after first release
 
 DEFAULT_MANIFEST = Path(__file__).parent.parent / "manifest.json"
 DEFAULT_SIG = Path(__file__).parent.parent / "manifest.json.sig"
-DEFAULT_PUBKEY = Path(__file__).parent.parent / "meridian-vault-pubkey.asc"
+DEFAULT_PUBKEY = Path(__file__).parent.parent / "tribunal-vault-pubkey.asc"
 
 
 def gpg_available() -> bool:
@@ -52,7 +52,7 @@ def verify(manifest: Path, sig: Path, pubkey: Path) -> bool:
         print(f"[ERROR] Public key not found: {pubkey}", file=sys.stderr)
         return False
 
-    with tempfile.TemporaryDirectory(prefix="meridian-gpg-") as gpg_home:
+    with tempfile.TemporaryDirectory(prefix="tribunal-gpg-") as gpg_home:
         base_cmd = ["gpg", "--homedir", gpg_home, "--batch", "--no-tty"]
 
         # Import the public key
@@ -104,7 +104,7 @@ def verify(manifest: Path, sig: Path, pubkey: Path) -> bool:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Verify Meridian Vault manifest GPG signature.")
+    parser = argparse.ArgumentParser(description="Verify Tribunal Vault manifest GPG signature.")
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--sig", type=Path, default=DEFAULT_SIG)
     parser.add_argument("--pubkey", type=Path, default=DEFAULT_PUBKEY)

@@ -11,7 +11,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-LOG_DIR = Path.home() / ".meridian"
+LOG_DIR = Path.home() / ".tribunal"
 LOG_FILE = LOG_DIR / "audit.log"
 MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 MB
 

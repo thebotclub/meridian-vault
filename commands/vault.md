@@ -20,7 +20,7 @@ sx is a team asset manager that uses a private Git repository as a shared vault.
    which sx 2>/dev/null && sx --version
    ```
 
-   If not installed: inform user sx is required for Team Vault. It can be installed via the Skillfield installer or from [skills.new](https://skills.new).
+   If not installed: inform user sx is required for Team Vault. It can be installed via the Tribunal installer or from [skills.new](https://skills.new).
 
 2. **Check vault configuration:**
 
@@ -162,7 +162,7 @@ ls .claude/commands/*.md 2>/dev/null
 ls .claude/agents/*.md 2>/dev/null
 ```
 
-Filter out standard Skillfield assets (those installed by the installer, not created by the user).
+Filter out standard Tribunal assets (those installed by the installer, not created by the user).
 
 ### Step P.2: Ask What to Share
 

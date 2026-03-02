@@ -8,7 +8,7 @@ Blocks or redirects tools to better alternatives:
 - Task (other sub-agents) → Direct tool calls (sub-agents lose context)
 - EnterPlanMode/ExitPlanMode → /spec workflow (project-specific planning)
 
-Skillfield Core MCP servers available:
+Tribunal Core MCP servers available:
 - web-search: Web search via DuckDuckGo/Bing
 - web-fetch: Full page fetching via Playwright
 - grep-mcp: GitHub code search via grep.app (1M+ repos)
@@ -39,9 +39,9 @@ def _spawn_counter_path() -> Path:
     """Return the path to the session-scoped spawn counter file."""
     raw_session_id = os.environ.get("SF_SESSION_ID", "").strip()
     session_id = _SAFE_SESSION_ID.sub("", raw_session_id) or "default"
-    skillfield_home_env = os.environ.get("SKILLFIELD_HOME", "").strip()
-    skillfield_home = Path(skillfield_home_env) if skillfield_home_env else Path.home() / ".skillfield"
-    counter_dir = skillfield_home / "sessions" / session_id
+    tribunal_home_env = os.environ.get("SKILLFIELD_HOME", "").strip()
+    tribunal_home = Path(tribunal_home_env) if tribunal_home_env else Path.home() / ".tribunal"
+    counter_dir = tribunal_home / "sessions" / session_id
     counter_dir.mkdir(parents=True, exist_ok=True)
     return counter_dir / "spawn-count.json"
 

@@ -17,7 +17,7 @@ from _util import (
     NC,
     RED,
     YELLOW,
-    _skillfield_home,
+    _tribunal_home,
     get_session_cache_path,
     get_session_plan_path,
 )
@@ -178,9 +178,9 @@ def save_cache(
 
 
 def _get_continuation_path() -> str:
-    """Get the absolute continuation file path for the current Skillfield session."""
+    """Get the absolute continuation file path for the current Tribunal session."""
     sf_session_id = os.environ.get("SF_SESSION_ID", "").strip() or "default"
-    return str(_skillfield_home() / "sessions" / sf_session_id / "continuation.md")
+    return str(_tribunal_home() / "sessions" / sf_session_id / "continuation.md")
 
 
 def _read_statusline_context_pct() -> float | None:
@@ -191,7 +191,7 @@ def _read_statusline_context_pct() -> float | None:
     sf_session_id = os.environ.get("SF_SESSION_ID", "").strip()
     if not sf_session_id:
         return None
-    cache_file = _skillfield_home() / "sessions" / sf_session_id / "context-pct.json"
+    cache_file = _tribunal_home() / "sessions" / sf_session_id / "context-pct.json"
     if not cache_file.exists():
         return None
     try:
@@ -239,7 +239,7 @@ def _resolve_context(session_id: str, *, _cache: dict | None = None) -> tuple[fl
     """Resolve context percentage. Returns (pct, shown_learn, shown_80) or None.
 
     Uses the session-scoped statusline cache (context-pct.json) which is
-    written by the statusline process for this specific Skillfield session.
+    written by the statusline process for this specific Tribunal session.
     Pass _cache to supply pre-loaded session flags and skip the file read.
     """
     statusline_pct = _read_statusline_context_pct()
@@ -319,7 +319,7 @@ def run_context_monitor() -> int:
         print(f"{RED}Do NOT write code, fix errors, or run commands.{NC}", file=sys.stderr)
         print(f"{RED}Execute BOTH steps below in THIS SINGLE TURN (no stopping between):{NC}", file=sys.stderr)
         print(f"{RED}  1. Write {continuation_path}{NC}", file=sys.stderr)
-        print(f"{RED}  2. Run: ~/.skillfield/bin/skillfield send-clear [plan-path|--general]{NC}", file=sys.stderr)
+        print(f"{RED}  2. Run: ~/.tribunal/bin/tribunal send-clear [plan-path|--general]{NC}", file=sys.stderr)
         print(
             f"{RED}Do NOT output a summary and stop. Do NOT wait for user. Execute send-clear NOW.{NC}", file=sys.stderr
         )
@@ -344,7 +344,7 @@ def run_context_monitor() -> int:
         print(f"{RED}⚠️  CONTEXT {percentage:.0f}% - MANDATORY HANDOFF{NC}", file=sys.stderr)
         print(f"{RED}Do NOT start new tasks or fix cycles. Execute handoff in a SINGLE TURN:{NC}", file=sys.stderr)
         print(f"{RED}  1. Write {continuation_path}{NC}", file=sys.stderr)
-        print(f"{RED}  2. Run: ~/.skillfield/bin/skillfield send-clear [plan-path|--general]{NC}", file=sys.stderr)
+        print(f"{RED}  2. Run: ~/.tribunal/bin/tribunal send-clear [plan-path|--general]{NC}", file=sys.stderr)
         print(
             f"{RED}Do NOT summarize and stop. The send-clear command triggers automatic restart.{NC}", file=sys.stderr
         )

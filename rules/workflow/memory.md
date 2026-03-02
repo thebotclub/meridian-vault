@@ -7,7 +7,7 @@ tags:
 deprecated: false
 ---
 
-## Persistent Memory via Skillfield Console MCP
+## Persistent Memory via Tribunal Console MCP
 
 Search past work, decisions, and context across sessions. Follow the 3-layer workflow for token efficiency.
 

@@ -1,5 +1,5 @@
 {
-    "description": "Skillfield Code hooks - memory system and quality checks",
+    "description": "Tribunal hooks - memory system and quality checks",
     "hooks": {
         "SessionStart": [
             {

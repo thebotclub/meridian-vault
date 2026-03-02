@@ -115,7 +115,7 @@ def main() -> int:
 
     next_phase = get_next_phase(status, approved)
 
-    rule_link = "https://github.com/thebotclub/meridian-vault/blob/main/rules/workflow/spec-workflow.md"
+    rule_link = "https://github.com/thebotclub/tribunal-vault/blob/main/rules/workflow/spec-workflow.md"
     print(
         f"{RED}⛔ BLOCKED — /spec workflow active - cannot stop without user interaction{NC}",
         file=sys.stderr,

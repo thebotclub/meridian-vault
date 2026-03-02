@@ -71,7 +71,7 @@ Parse the arguments: $ARGUMENTS
 ```
 IF arguments start with "--continue":
     plan_path = extract path after "--continue"
-    1. Read ~/.skillfield/sessions/$SF_SESSION_ID/continuation.md if it exists
+    1. Read ~/.tribunal/sessions/$SF_SESSION_ID/continuation.md if it exists
     2. Delete the continuation file after reading
     3. Read plan file, check Status AND Approved fields
     → Dispatch to appropriate phase based on status
@@ -108,7 +108,7 @@ AskUserQuestion:
 **After reading the plan file, register the plan association (non-blocking):**
 
 ```bash
-~/.skillfield/bin/skillfield register-plan "<plan_path>" "<status>" 2>/dev/null || true
+~/.tribunal/bin/tribunal register-plan "<plan_path>" "<status>" 2>/dev/null || true
 ```
 
 This tells Console which session is working on which plan. Failure is silently ignored.
@@ -146,7 +146,7 @@ Is there anything else you'd like me to help with?
 **⛔ MANDATORY: Before EVERY `Skill()` call that transitions to another phase, check context:**
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 | Percentage | Action                                              |
@@ -167,7 +167,7 @@ Each phase (plan, implement, verify) needs significant context to complete. Star
 After each major operation, check context:
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 **Between iterations:**
@@ -182,7 +182,7 @@ If response shows `"status": "CLEAR_NEEDED"` (context >= 90%):
 
 **Step 1: Write continuation file (GUARANTEED BACKUP)**
 
-Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
+Write to `~/.tribunal/sessions/$SF_SESSION_ID/continuation.md`:
 
 ```markdown
 # Session Continuation (/spec)
@@ -207,10 +207,10 @@ Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
 **Step 2: Trigger session clear**
 
 ```bash
-~/.skillfield/bin/skillfield send-clear <plan-path>
+~/.tribunal/bin/tribunal send-clear <plan-path>
 ```
 
-Skillfield will restart with `/spec --continue <plan-path>`
+Tribunal will restart with `/spec --continue <plan-path>`
 
 ### Error Handling
 

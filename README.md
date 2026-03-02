@@ -1,6 +1,6 @@
-# 🏛️ Meridian Vault
+# 🏛️ Tribunal Vault
 
-**The shared library of AI coding skills, rules, agents, hooks, and MCP configs for [Meridian](https://github.com/skill-field/skillfield-code).**
+**The shared library of AI coding skills, rules, agents, hooks, and MCP configs for [Tribunal](https://github.com/thebotclub/tribunal).**
 
 Every skill you create, every rule you refine, every workflow you perfect — it lives here. Pull what you need, push what you build. The vault grows with every developer who uses it.
 
@@ -97,13 +97,13 @@ vault/
 
 ```bash
 # Configure vault (first time)
-sx init --type git --repo-url https://github.com/thebotclub/meridian-vault.git
-# Note: `sx` is a companion CLI — install via `pip install skillfield-sx`
+sx init --type git --repo-url https://github.com/thebotclub/tribunal-vault.git
+# Note: `sx` is a companion CLI — install via `pip install tribunal-sx`
 
 # Install all vault assets to your project
 sx install --repair --target .
 
-# Or from within Meridian
+# Or from within Tribunal
 > /vault
 > Pull
 ```
@@ -113,7 +113,7 @@ sx install --repair --target .
 When you create a new skill, rule, or command that others could use:
 
 ```bash
-# From within Meridian
+# From within Tribunal
 > /vault
 > Push
 
@@ -125,12 +125,12 @@ sx add .claude/skills/my-skill --yes --type skill --name "my-skill"
 
 ```bash
 # List everything
-skillfield vault list
+tribunal vault list
 
 # Show details for a specific asset
-skillfield vault show <asset-name>
+tribunal vault show <asset-name>
 
-# Or from within Meridian
+# Or from within Tribunal
 > /vault
 > Browse
 ```
@@ -139,7 +139,7 @@ skillfield vault show <asset-name>
 
 ## Contributing
 
-Every developer using Meridian can contribute to the vault:
+Every developer using Tribunal can contribute to the vault:
 
 1. **Create a skill** — Use `/learn` during a session to extract reusable knowledge
 2. **Push to vault** — Use `/vault` → Push to share with the community
@@ -173,7 +173,7 @@ Slash commands that extend Claude Code with structured workflows. `/spec` for pl
 Sub-agent definitions for verification. These run independently to validate plans and review code from different perspectives.
 
 ### Hooks
-Python scripts that fire automatically on file edits, context changes, and session events. The quality backbone of Meridian.
+Python scripts that fire automatically on file edits, context changes, and session events. The quality backbone of Tribunal.
 
 ### Modes
 Localized system prompts for coding in 30+ languages. The coding instructions stay in English (code is code), but communication adapts to the developer's language.
@@ -182,6 +182,6 @@ Localized system prompts for coding in 30+ languages. The coding instructions st
 
 <div align="center">
 
-**The vault grows with every developer who uses Meridian.**
+**The vault grows with every developer who uses Tribunal.**
 
 </div>

@@ -123,7 +123,7 @@ def _extract_skills_from_observations(plugin_root: str) -> int:
     """Extract high-value observations as reusable skills. Returns count extracted."""
     import datetime
 
-    skills_dir = Path.home() / ".skillfield" / "extracted-skills"
+    skills_dir = Path.home() / ".tribunal" / "extracted-skills"
     skills_dir.mkdir(parents=True, exist_ok=True)
 
     # Try to load observations from worker service observation store

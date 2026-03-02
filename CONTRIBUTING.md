@@ -1,6 +1,6 @@
-# Contributing to Meridian Vault
+# Contributing to Tribunal Vault
 
-Thank you for your interest in contributing to the Meridian Vault!
+Thank you for your interest in contributing to the Tribunal Vault!
 
 ## Getting Started
 
@@ -49,4 +49,4 @@ When adding new vault assets, ensure:
 
 ## Questions?
 
-Open a [GitHub Discussion](https://github.com/thebotclub/meridian-vault/discussions) for general questions.
+Open a [GitHub Discussion](https://github.com/thebotclub/tribunal-vault/discussions) for general questions.

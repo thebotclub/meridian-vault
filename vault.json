@@ -139,8 +139,8 @@
         "ext": ".md"
       },
       {
-        "path": "rules/tools/skillfield-cli.md",
-        "name": "skillfield-cli",
+        "path": "rules/tools/tribunal-cli.md",
+        "name": "tribunal-cli",
         "ext": ".md"
       },
       {

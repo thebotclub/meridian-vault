@@ -196,7 +196,7 @@ hooks:
 5. **Register plan association (MANDATORY):**
 
    ```bash
-   ~/.skillfield/bin/skillfield register-plan "<plan_path>" "PENDING" 2>/dev/null || true
+   ~/.tribunal/bin/tribunal register-plan "<plan_path>" "PENDING" 2>/dev/null || true
    ```
 
    This tells the statusline which plan belongs to THIS session. Without it, parallel sessions show the wrong plan.
@@ -525,8 +525,8 @@ echo $SF_SESSION_ID
 ```
 
 Define output paths (replace `<session-id>` with the resolved value):
-- **Verifier findings:** `~/.skillfield/sessions/<session-id>/findings-plan-verifier.json`
-- **Challenger findings:** `~/.skillfield/sessions/<session-id>/findings-plan-challenger.json`
+- **Verifier findings:** `~/.tribunal/sessions/<session-id>/findings-plan-verifier.json`
+- **Challenger findings:** `~/.tribunal/sessions/<session-id>/findings-plan-challenger.json`
 
 #### Launch Plan Verification (Parallel Review)
 
@@ -666,7 +666,7 @@ Present this to the user in the approval summary so they know the scope upfront.
 
    **If user approves (selects "Yes" or any approval option):**
    - Update `Approved: No` → `Approved: Yes` in the plan file
-   - **⛔ Phase Transition Context Guard:** Run `~/.skillfield/bin/skillfield check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
+   - **⛔ Phase Transition Context Guard:** Run `~/.tribunal/bin/tribunal check-context --json`. If >= 80%, hand off instead (see spec.md Section 0.3).
    - **Invoke implementation phase:** `Skill(skill='spec-implement', args='<plan-path>')`
 
    **If user selects "No, I need to make changes":**
@@ -693,7 +693,7 @@ Present this to the user in the approval summary so they know the scope upfront.
 After each major operation, check context:
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 **Between iterations:**
@@ -708,7 +708,7 @@ If response shows `"status": "CLEAR_NEEDED"` (context >= 90%):
 
 **Step 1: Write continuation file (GUARANTEED BACKUP)**
 
-Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
+Write to `~/.tribunal/sessions/$SF_SESSION_ID/continuation.md`:
 
 ```markdown
 # Session Continuation (/spec)
@@ -733,9 +733,9 @@ Write to `~/.skillfield/sessions/$SF_SESSION_ID/continuation.md`:
 **Step 2: Trigger session clear**
 
 ```bash
-~/.skillfield/bin/skillfield send-clear <plan-path>
+~/.tribunal/bin/tribunal send-clear <plan-path>
 ```
 
-Skillfield will restart with `/spec --continue <plan-path>`
+Tribunal will restart with `/spec --continue <plan-path>`
 
 ARGUMENTS: $ARGUMENTS

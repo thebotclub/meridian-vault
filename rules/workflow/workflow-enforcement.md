@@ -107,12 +107,12 @@ This prevents forgetting steps, manages dependencies, shows the user real-time p
 
 ### ⛔ Cross-Session Task Isolation
 
-**Tasks are scoped to the current session via `CLAUDE_CODE_TASK_LIST_ID`.** Each Skillfield session gets a unique task namespace (`skillfield-{PID}`). Tasks from other parallel sessions are invisible to `TaskList`/`TaskGet`/`TaskUpdate` — this isolation is enforced at the infrastructure level.
+**Tasks are scoped to the current session via `CLAUDE_CODE_TASK_LIST_ID`.** Each Tribunal session gets a unique task namespace (`tribunal-{PID}`). Tasks from other parallel sessions are invisible to `TaskList`/`TaskGet`/`TaskUpdate` — this isolation is enforced at the infrastructure level.
 
-**However, Skillfield Memory is shared across ALL sessions.** The startup context injection may include observations from parallel sessions that reference task IDs, plan progress, or implementation details from a different terminal. **These are informational background only.**
+**However, Tribunal Memory is shared across ALL sessions.** The startup context injection may include observations from parallel sessions that reference task IDs, plan progress, or implementation details from a different terminal. **These are informational background only.**
 
 **Rules:**
-- **NEVER act on task references from Skillfield Memory** that don't appear in your own `TaskList` output
+- **NEVER act on task references from Tribunal Memory** that don't appear in your own `TaskList` output
 - If the startup context mentions "Task 15 completed" or "Task 16 in_progress" but `TaskList` returns empty or different tasks, those belong to another session — ignore them
 - **`TaskList` is the sole source of truth** for what tasks exist in your session
 - Do NOT create tasks to "mirror" or "continue" tasks you see in memory observations from another session
@@ -269,7 +269,7 @@ Note: Task management tools (TaskCreate, TaskList, etc.) are ALWAYS allowed.
 **Every time a plan file is created or continued, register it with the session:**
 
 ```bash
-~/.skillfield/bin/skillfield register-plan "<plan_path>" "<status>" 2>/dev/null || true
+~/.tribunal/bin/tribunal register-plan "<plan_path>" "<status>" 2>/dev/null || true
 ```
 
 **When to call:**
@@ -358,19 +358,19 @@ Worktree isolation is controlled by the `Worktree:` field in the plan header (de
 
 - `.worktrees/` is auto-added to `.gitignore`
 - Worktree state is tracked per-session and survives Endless Mode restarts
-- `skillfield worktree status` shows current worktree state
+- `tribunal worktree status` shows current worktree state
 - If the user discards changes, the worktree is removed without merging
 - Plans missing the `Worktree:` field default to `Yes` for backward compatibility
 
-**Worktree CLI commands** (see `skillfield-cli.md` for full reference with JSON output formats):
+**Worktree CLI commands** (see `tribunal-cli.md` for full reference with JSON output formats):
 
 ```bash
-skillfield worktree detect --json <slug>   # Check if worktree exists
-skillfield worktree create --json <slug>   # Create AND register with session
-skillfield worktree diff --json <slug>     # List changed files
-skillfield worktree sync --json <slug>     # Squash merge to base branch
-skillfield worktree cleanup --json <slug>  # Remove worktree and branch
-skillfield worktree status --json          # Show active worktree info
+tribunal worktree detect --json <slug>   # Check if worktree exists
+tribunal worktree create --json <slug>   # Create AND register with session
+tribunal worktree diff --json <slug>     # List changed files
+tribunal worktree sync --json <slug>     # Squash merge to base branch
+tribunal worktree cleanup --json <slug>  # Remove worktree and branch
+tribunal worktree status --json          # Show active worktree info
 ```
 
 **Dirty working tree:** If `create` fails with `"error": "dirty"`, ask the user via `AskUserQuestion` whether to commit changes, stash them, or skip worktree isolation. See spec-implement Step 2.1b for the full handling flow.
@@ -395,7 +395,7 @@ skillfield worktree status --json          # Show active worktree info
 **⛔ Before EVERY `Skill()` call that transitions to another /spec phase, check context:**
 
 ```bash
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 ```
 
 - **< 80%:** Proceed with phase transition.

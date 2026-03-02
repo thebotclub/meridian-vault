@@ -1,6 +1,6 @@
 # Worker Service IPC Protocol
 
-`sf/scripts/worker-service.cjs` is a long-running background process that handles memory, context, and observation events for the Skillfield plugin. It is spawned via `worker-wrapper.cjs` at session start and communicates with Claude Code hooks via CLI arguments and stdin.
+`sf/scripts/worker-service.cjs` is a long-running background process that handles memory, context, and observation events for the Tribunal plugin. It is spawned via `worker-wrapper.cjs` at session start and communicates with Claude Code hooks via CLI arguments and stdin.
 
 ## Architecture
 
@@ -17,7 +17,7 @@ worker-wrapper.cjs   ← supervises and restarts inner process
 worker-service.cjs   ← event dispatcher + memory system
       │
       ▼
-~/.skillfield/data/  ← local SQLite / file storage (no cloud)
+~/.tribunal/data/  ← local SQLite / file storage (no cloud)
 ```
 
 ## Event Types Accepted
@@ -54,7 +54,7 @@ Payload is read from **stdin** as a JSON string (Claude Code hook protocol).
 
 The worker service **does not authenticate callers** over a network — it is invoked as a local subprocess by Claude Code hooks. Security relies on:
 
-1. **File system permissions** — `~/.claude/skillfield/` is only accessible to the owning user.
+1. **File system permissions** — `~/.claude/tribunal/` is only accessible to the owning user.
 2. `SKILLFIELD_MANAGED=true` environment variable — set by the wrapper to identify managed processes.
 3. **No network listeners** — all communication is via stdin/stdout and Node IPC (no TCP/Unix sockets exposed by the service itself).
 
@@ -84,7 +84,7 @@ All events received via stdin are validated before processing:
 | Network exposure | ❌ None — local subprocess only |
 | Authentication | ✅ File system permissions |
 | Input validation | ✅ JSON schema + allowlist |
-| Data exfiltration | ❌ None — writes only to `~/.skillfield/` |
+| Data exfiltration | ❌ None — writes only to `~/.tribunal/` |
 | Privilege escalation | ❌ Runs as the user who launched Claude Code |
 
 ## Hardening Checklist

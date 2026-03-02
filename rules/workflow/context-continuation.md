@@ -20,7 +20,7 @@ deprecated: false
 - **Quality is the #1 metric** - clean code, proper tests, thorough implementation
 - Do NOT skip tests, compress explanations, or cut corners to "beat" context limits
 
-**The context limit is not your enemy.** It's just a checkpoint. The plan file, Skillfield Memory, and continuation files ensure seamless handoff. Trust the system.
+**The context limit is not your enemy.** It's just a checkpoint. The plan file, Tribunal Memory, and continuation files ensure seamless handoff. Trust the system.
 
 ### ⛔ But at 90%+, HANDOFF OVERRIDES EVERYTHING
 
@@ -34,7 +34,7 @@ deprecated: false
 
 ## Session Identity
 
-Continuation files are stored under `~/.skillfield/sessions/<session-id>/` where `<session-id>` comes from the `SF_SESSION_ID` environment variable (defaults to `"default"` if not set). This ensures parallel sessions don't interfere with each other's continuation state.
+Continuation files are stored under `~/.tribunal/sessions/<session-id>/` where `<session-id>` comes from the `SF_SESSION_ID` environment variable (defaults to `"default"` if not set). This ensures parallel sessions don't interfere with each other's continuation state.
 
 **⚠️ CRITICAL: The context monitor hook prints the EXACT absolute path to use.** Copy the path from the hook output — do NOT try to resolve `$SF_SESSION_ID` yourself. If you need the path before the hook fires, resolve it explicitly:
 
@@ -42,16 +42,16 @@ Continuation files are stored under `~/.skillfield/sessions/<session-id>/` where
 echo $SF_SESSION_ID
 ```
 
-Then construct the path: `~/.skillfield/sessions/<resolved-id>/continuation.md`
+Then construct the path: `~/.tribunal/sessions/<resolved-id>/continuation.md`
 
 ## How It Works
 
 This enables "endless mode" for any development session, not just /spec workflows:
 
 1. **Context Monitor** warns at 80% and 90% usage
-2. **You save state** to Skillfield Memory before clearing
-3. **Skillfield restarts** Claude with continuation prompt
-4. **Skillfield Memory injects** your saved state
+2. **You save state** to Tribunal Memory before clearing
+3. **Tribunal restarts** Claude with continuation prompt
+4. **Tribunal Memory injects** your saved state
 5. **You continue** where you left off
 
 ## When Context Warning Appears
@@ -64,7 +64,7 @@ When you see the context warning (80% or 90%), take action:
    ```
    Skill(skill="context-compressor")
    ```
-   This produces `~/.skillfield/sessions/<session_id>/context-summary.md`.
+   This produces `~/.tribunal/sessions/<session_id>/context-summary.md`.
 
 2. Wrap up current task if possible
 3. Avoid starting new complex work
@@ -98,14 +98,14 @@ Then check the Status field in the most recent plan file(s). An **active plan** 
 **Decision Tree:**
 | Situation | Command to Use |
 |-----------|----------------|
-| Active plan exists (PENDING/COMPLETE) | `~/.skillfield/bin/skillfield send-clear docs/plans/YYYY-MM-DD-name.md` |
-| No active plan (all VERIFIED or none exist) | `~/.skillfield/bin/skillfield send-clear --general` |
+| Active plan exists (PENDING/COMPLETE) | `~/.tribunal/bin/tribunal send-clear docs/plans/YYYY-MM-DD-name.md` |
+| No active plan (all VERIFIED or none exist) | `~/.tribunal/bin/tribunal send-clear --general` |
 
 **NEVER use `--general` when there's an active plan file. This loses the plan context!**
 
 **Step 3: Write Session Summary to File (GUARANTEED BACKUP)**
 
-Write the summary using the Write tool to the **exact path printed by the context monitor hook** (Step 1 in the hook output). The path is an absolute path like `/Users/you/.skillfield/sessions/12345/continuation.md`. **Do NOT use `$SF_SESSION_ID` as a literal string in the file path — the Write tool cannot resolve shell variables.**
+Write the summary using the Write tool to the **exact path printed by the context monitor hook** (Step 1 in the hook output). The path is an absolute path like `/Users/you/.tribunal/sessions/12345/continuation.md`. **Do NOT use `$SF_SESSION_ID` as a literal string in the file path — the Write tool cannot resolve shell variables.**
 
 Include VERIFIED status with actual command output.
 
@@ -153,17 +153,17 @@ Then execute the send-clear command (do NOT wait for user response):
 
 ```bash
 # If active plan exists (PREFERRED - preserves plan context):
-~/.skillfield/bin/skillfield send-clear docs/plans/YYYY-MM-DD-name.md
+~/.tribunal/bin/tribunal send-clear docs/plans/YYYY-MM-DD-name.md
 
 # ONLY if NO active plan exists:
-~/.skillfield/bin/skillfield send-clear --general
+~/.tribunal/bin/tribunal send-clear --general
 ```
 
 This triggers session continuation in Endless Mode:
-1. Waits 10s for Skillfield Memory to capture the session
+1. Waits 10s for Tribunal Memory to capture the session
 2. Waits 5s for graceful shutdown (SessionEnd hooks run)
 3. Waits 5s for session hooks to complete
-4. Waits 3s for Skillfield Memory initialization
+4. Waits 3s for Tribunal Memory initialization
 5. Restarts Claude with the continuation prompt
 
 Or if no active session, inform user:
@@ -174,7 +174,7 @@ Context at 90%. Please run `/clear` and then tell me to continue where I left of
 **Step 4: After Restart**
 
 The new session receives:
-- Skillfield Memory context injection (including your Session End Summary)
+- Tribunal Memory context injection (including your Session End Summary)
 - A continuation prompt instructing you to resume
 
 ### At 95%+ - EMERGENCY HANDOFF
@@ -208,10 +208,10 @@ Write to the exact path from the context monitor hook output:
 
 ```bash
 # If active plan exists:
-~/.skillfield/bin/skillfield send-clear docs/plans/YYYY-MM-DD-name.md
+~/.tribunal/bin/tribunal send-clear docs/plans/YYYY-MM-DD-name.md
 
 # If no active plan:
-~/.skillfield/bin/skillfield send-clear --general
+~/.tribunal/bin/tribunal send-clear --general
 ```
 
 **DO NOT:**
@@ -227,7 +227,7 @@ Write to the exact path from the context monitor hook output:
 **At the START of EVERY session (not just continuation sessions), delete any stale continuation file:**
 
 ```bash
-rm -f ~/.skillfield/sessions/$SF_SESSION_ID/continuation.md
+rm -f ~/.tribunal/sessions/$SF_SESSION_ID/continuation.md
 ```
 
 **Why this is critical:** Stale continuation files from previous sessions cause the Write tool to fail (it requires reading before writing). If the stale file contains old context, it can corrupt the handoff. This cleanup MUST happen before any work begins — even in quick-mode sessions that aren't continuations.
@@ -246,14 +246,14 @@ When a new session starts with a continuation prompt:
    # Resolve the actual session ID first
    echo $SF_SESSION_ID
    ```
-   Then use the Read tool with the resolved absolute path (e.g., `~/.skillfield/sessions/12345/continuation.md`). **Do NOT pass `$SF_SESSION_ID` to the Read tool — resolve it first.**
+   Then use the Read tool with the resolved absolute path (e.g., `~/.tribunal/sessions/12345/continuation.md`). **Do NOT pass `$SF_SESSION_ID` to the Read tool — resolve it first.**
 
 2. **Delete the continuation file after reading it:**
    ```bash
-   rm -f ~/.skillfield/sessions/$SF_SESSION_ID/continuation.md
+   rm -f ~/.tribunal/sessions/$SF_SESSION_ID/continuation.md
    ```
 
-3. **Also check Skillfield Memory** for injected context about "Session Continuation"
+3. **Also check Tribunal Memory** for injected context about "Session Continuation"
 
 4. **Acknowledge the continuation** - Tell user: "Continuing from previous session..."
 
@@ -267,7 +267,7 @@ If you're in a /spec workflow (plan file exists):
 
 If you're in general development (no plan file):
 - Use this continuation protocol
-- Skillfield Memory observations are your source of truth
+- Tribunal Memory observations are your source of truth
 
 ## Quick Reference
 
@@ -278,20 +278,20 @@ If you're in general development (no plan file):
 | 90-94% | **MANDATORY:** Verify → Save state → Clear session → Continue |
 | ≥ 95% | **EMERGENCY:** Skip verification → Write minimal file → send-clear → Done |
 
-## Skillfield Commands for Endless Mode
+## Tribunal Commands for Endless Mode
 
 ```bash
 # Check context percentage
-~/.skillfield/bin/skillfield check-context --json
+~/.tribunal/bin/tribunal check-context --json
 
 # Trigger session continuation (no continuation prompt)
-~/.skillfield/bin/skillfield send-clear
+~/.tribunal/bin/tribunal send-clear
 
 # Trigger continuation WITH plan (PREFERRED when plan exists):
-~/.skillfield/bin/skillfield send-clear docs/plans/YYYY-MM-DD-name.md
+~/.tribunal/bin/tribunal send-clear docs/plans/YYYY-MM-DD-name.md
 
 # Trigger continuation WITHOUT plan (ONLY when no active plan):
-~/.skillfield/bin/skillfield send-clear --general
+~/.tribunal/bin/tribunal send-clear --general
 ```
 
 **⚠️ ALWAYS check for active plans before using `--general`. See Step 2 above.**
@@ -300,5 +300,5 @@ If you're in general development (no plan file):
 
 1. **Don't ignore 90% warnings** - Context will fail at 100%
 2. **Save before clearing** - Lost context cannot be recovered
-3. **Skillfield Memory is essential** - It bridges sessions with observations
+3. **Tribunal Memory is essential** - It bridges sessions with observations
 4. **Trust the injected context** - It's your previous session's state
