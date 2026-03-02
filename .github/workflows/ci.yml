@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-hooks:
+    name: Validate hooks.json
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate hooks/hooks.json is valid JSON
+        run: python3 -c "import json; json.load(open('hooks/hooks.json')); print('hooks.json is valid JSON')"
+      - name: Check referenced Python scripts exist
+        run: |
+          python3 - << 'PYEOF'
+          import json, re, sys
+          from pathlib import Path
+
+          hooks_data = json.load(open("hooks/hooks.json"))
+          missing = []
+
+          def walk(obj):
+              if isinstance(obj, dict):
+                  if "command" in obj:
+                      cmd = obj["command"]
+                      m = re.search(r'\$\{CLAUDE_PLUGIN_ROOT\}/hooks/([^\s"]+\.py)', cmd)
+                      if m:
+                          script = Path("hooks") / m.group(1)
+                          if not script.exists():
+                              missing.append(str(script))
+                  for v in obj.values():
+                      walk(v)
+              elif isinstance(obj, list):
+                  for item in obj:
+                      walk(item)
+
+          walk(hooks_data)
+          if missing:
+              print("Missing scripts:", missing)
+              sys.exit(1)
+          print("All referenced Python scripts exist")
+          PYEOF
+
+  ruff:
+    name: Ruff Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uv run ruff check hooks/

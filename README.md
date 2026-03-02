@@ -1,10 +1,17 @@
-# 🏛️ Skillfield Vault
+# 🏛️ Meridian Vault
 
-**The shared library of AI coding skills, rules, agents, hooks, and MCP configs for [Skillfield Code](https://github.com/skill-field/skillfield-code).**
+**The shared library of AI coding skills, rules, agents, hooks, and MCP configs for [Meridian](https://github.com/skill-field/skillfield-code).**
 
 Every skill you create, every rule you refine, every workflow you perfect — it lives here. Pull what you need, push what you build. The vault grows with every developer who uses it.
 
 ---
+
+
+## Requirements
+
+- **Node.js** (v18+) or **Bun** — required for the worker service hooks
+- **Python** 3.12 — required for hook scripts
+- **uv** — Python package runner used by hooks
 
 ## What's Inside
 
@@ -90,12 +97,13 @@ vault/
 
 ```bash
 # Configure vault (first time)
-sx init --type git --repo-url https://github.com/skill-field/vault.git
+meridian init --type git --repo-url https://github.com/thebotclub/meridian-vault.git
+# Note: `sx` is a companion CLI — install via `pip install skillfield-sx`
 
 # Install all vault assets to your project
-sx install --repair --target .
+meridian install --repair --target .
 
-# Or from within Skillfield Code
+# Or from within Meridian
 > /vault
 > Pull
 ```
@@ -105,24 +113,24 @@ sx install --repair --target .
 When you create a new skill, rule, or command that others could use:
 
 ```bash
-# From within Skillfield Code
+# From within Meridian
 > /vault
 > Push
 
 # Or via CLI
-sx add .claude/skills/my-skill --yes --type skill --name "my-skill"
+meridian add .claude/skills/my-skill --yes --type skill --name "my-skill"
 ```
 
 ### Browse the vault
 
 ```bash
 # List everything
-sx vault list
+meridian vault list
 
 # Show details for a specific asset
-sx vault show <asset-name>
+meridian vault show <asset-name>
 
-# Or from within Skillfield Code
+# Or from within Meridian
 > /vault
 > Browse
 ```
@@ -131,7 +139,7 @@ sx vault show <asset-name>
 
 ## Contributing
 
-Every developer using Skillfield Code can contribute to the vault:
+Every developer using Meridian can contribute to the vault:
 
 1. **Create a skill** — Use `/learn` during a session to extract reusable knowledge
 2. **Push to vault** — Use `/vault` → Push to share with the community
@@ -165,7 +173,7 @@ Slash commands that extend Claude Code with structured workflows. `/spec` for pl
 Sub-agent definitions for verification. These run independently to validate plans and review code from different perspectives.
 
 ### Hooks
-Python scripts that fire automatically on file edits, context changes, and session events. The quality backbone of Skillfield Code.
+Python scripts that fire automatically on file edits, context changes, and session events. The quality backbone of Meridian.
 
 ### Modes
 Localized system prompts for coding in 30+ languages. The coding instructions stay in English (code is code), but communication adapts to the developer's language.
@@ -174,6 +182,6 @@ Localized system prompts for coding in 30+ languages. The coding instructions st
 
 <div align="center">
 
-**The vault grows with every developer who uses Skillfield Code.**
+**The vault grows with every developer who uses Meridian.**
 
 </div>
